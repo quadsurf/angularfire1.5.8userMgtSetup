@@ -11,6 +11,7 @@
 			[{"owner": "P1", "character": 3}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": "P2", "character": 1}]
       ]
 		},
+
 		{
 		"id"	: 6,
 		"socket" : false,
@@ -24,6 +25,17 @@
 		},
 		{
 		"id"	: 7,
+		"socket" : true,
+		"players": ["P1", "P2"],
+		"grid"	:	[
+      [{"owner": "P1", "character": 1, "type": "rock", "health": 2}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": "P2", "character": 1}],
+      [{"owner": "P1", "character": 2}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": "P2", "character": 2}],
+      [{"owner": "P1", "character": 3}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": "P2", "character": 3}],
+			[{"owner": "P1", "character": 3}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": "P2", "character": 1}]
+      ]
+		},
+		{
+		"id"	: 8,
 		"socket" : true,
 		"players": ["P1", "P2"],
 		"grid"	:	[
