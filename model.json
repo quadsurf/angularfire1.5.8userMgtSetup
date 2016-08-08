@@ -1,0 +1,17 @@
+{
+	"users" : {
+		"id" : {"nickname":null,"email":null,"wins":null}
+	},
+	"games"	: [
+		{
+		"players": [null, null],
+		"socket" : false,
+		"grid"	:	[
+      [{"owner": null, "character": null, "type": "rock", "health": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+      [{"owner": null, "character": null, "type": "rock", "health": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+      [{"owner": null, "character": null, "type": "rock", "health": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+			[{"owner": null, "character": null, "type": "rock", "health": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}]
+      ]
+		}
+	]
+}
