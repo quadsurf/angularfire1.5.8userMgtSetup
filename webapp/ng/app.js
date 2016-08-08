@@ -21,26 +21,31 @@
         })
         .state('users.new',{
           url: '/new',
-          templateUrl: '/ng/views/users.new.tpl.html',
+          templateUrl: '/ng/views/user.new.tpl.html',
           controller: 'newUserCtr as newuser'
         })
         .state('users.edit',{
           url: '/edit/:id',
-          templateUrl: '/ng/views/users.edit.tpl.html',
+          templateUrl: '/ng/views/user.edit.tpl.html',
           controller: 'editUserCtr as edituser',
           params: {
             classified: null
           }
         })
-        .state('newgame',{
-          url: '/newgame',
+        .state('games',{
+          url: '/games',
+          templateUrl: '/ng/views/games.tpl.html',
+          controller: 'gamesCtr as games'
+        })
+        .state('games.new',{
+          url: '/new',
           templateUrl: '/ng/views/game.new.tpl.html',
           controller: 'newGameCtr as newgame'
         })
-        .state('game',{
-          url: '/game/:id',
-          templateUrl: '/ng/views/gameboard.tpl.html',
-          controller: 'gameboardCtr as game',
+        .state('games.id',{
+          url: '/id/:id',
+          templateUrl: '/ng/views/game.tpl.html',
+          controller: 'gameCtr as game',
           params: {
             classified: null
           }

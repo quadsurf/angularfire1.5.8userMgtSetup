@@ -5,7 +5,7 @@
 
   angular
     .module('rpsApp')
-    .controller('gameboardCtr',
+    .controller('gameCtr',
             ['$scope','$state','$http','$mdToast','$mdDialog','getUsersService','newGameService','setupGameService','getGameService',
       function($scope, $state, $http, $mdToast, $mdDialog, getUsersService, newGameService, setupGameService, getGameService){
 
