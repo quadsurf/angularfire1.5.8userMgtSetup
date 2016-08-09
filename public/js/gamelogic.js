@@ -27,34 +27,42 @@ const gamelogic = {
 		//	then gameState.gameStatus.currentPlayer = playersList[0];
 	},
 
-	canMove: function ( SelectedCor ) { // show valid move spaces
-		// loop through validMoves for SelectedCor
+	validMove: function ( selectedCor, actionCor ) {
+			if ( validMoves[selectedCor][actionCor] ) {
+				return validMoves[selectedCor][actionCor];
+			} else {
+				return false;
+			}
+	},
+
+	canMove: function ( selectedCor ) { // show valid move spaces
+		// loop through validMoves for selectedCor
 		// add class .canMove to each hex
 	},
 
-	resolveMove: function ( SelectedCor, ObjectFromSelectedCor, ActionCor, ObjectFromActionCor ) {
+	resolveMove: function ( selectedCor, ObjectFromSelectedCor, actionCor, ObjectFromActionCor ) {
 		// if ( valid move && ObjectFromActionCor.owner === null ) {
-	  //	move (ObjectFromSelectedCor, SelectedCor, ActionCor);
+	  //	move (ObjectFromSelectedCor, selectedCor, actionCor);
 		// else
-		//	var NewSelectedCor = moveNextTo(SelectedCor, ActionCor);
-		//	move (ObjectFromSelectedCor, SelectedCor, NewSelectedCor);
-		// 	battle(NewSelectedCor, ObjectFromSelectedCor, ActionCor, ObjectFromActionCor);
+		//	var NewselectedCor = moveNextTo(selectedCor, actionCor);
+		//	move (ObjectFromSelectedCor, selectedCor, NewselectedCor);
+		// 	battle(NewselectedCor, ObjectFromSelectedCor, actionCor, ObjectFromActionCor);
 		// };
 	},
 
-	moveNextTo: function ( SelectedCor, ActionCor ) { // Move next to defending character
-		switch ( SelectedCor - ActionCor) {
+	moveNextTo: function ( selectedCor, actionCor ) { // Move next to defending character
+		switch ( selectedCor - actionCor) {
 			case IfXisNeg:  // Moving Right
-				// Add one to x of SelectedCor
+				// Add one to x of selectedCor
 				return;
 			case IfXisPos:  // Moving Left
-				// Subtract one to x of SelectedCor
+				// Subtract one to x of selectedCor
 				return;
 			case IfYisNeg:  // Moving Down
-				// Add one to y of SelectedCor
+				// Add one to y of selectedCor
 				return;
 			case IfYisPos:  // Moving Up
-				// Subtract one to y of SelectedCor
+				// Subtract one to y of selectedCor
 				return;
 			default:
 				return "Error";
@@ -66,9 +74,9 @@ const gamelogic = {
 		// gameboard[MoveFrom] = EmptyBoardObject
 	},
 
-	battle: function( NewSelectedCor, ObjectFromSelectedCor, ActionCor, ObjectFromActionCor ) {
-		// var offender = [NewSelectedCor, ObjectFromSelectedCor];
-		// var defender = [ActionCor, ObjectFromActionCor];
+	battle: function( NewselectedCor, ObjectFromSelectedCor, actionCor, ObjectFromActionCor ) {
+		// var offender = [NewselectedCor, ObjectFromSelectedCor];
+		// var defender = [actionCor, ObjectFromActionCor];
 		// var loserCor;
 
 		// Compare offender[1] to defender[1]
@@ -78,7 +86,7 @@ const gamelogic = {
 		//	endTurn(CurrentPlayer)
 		// } else {
 		//	loser(offender or defender);
-		//	if offender wins && gameboard[ActionCor].owner === null {
+		//	if offender wins && gameboard[actionCor].owner === null {
 		//		move( offender[1], offender[0], MoveTo )
 		// 	}
 		//	endTurn(CurrentPlayer)
