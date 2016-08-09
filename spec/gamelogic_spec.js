@@ -224,6 +224,7 @@ describe("vaildMove", function () {
 
 	it("should return true is move valid", function () {
 		expect(gamelogic.validMove("hex5", "hex6")).toEqual(true);
+		expect(gamelogic.validMove("hex12", "hex7")).toEqual(true);
 	});
 
 	it("should return false is move invalid", function () {
