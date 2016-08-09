@@ -233,3 +233,95 @@ describe("vaildMove", function () {
 	});
 
 });
+
+
+describe("move", function () {
+
+	beforeAll(function () {
+
+		initGameReady(); // Initialize Game Setup, characters placed, no moves made yet
+
+		var selectedCor,
+				objectFromSelectedCor,
+				actionCor,
+				objectFromActionCor;
+
+	});
+
+	afterAll(function () {
+
+		resetGameState();
+
+	});
+
+	it("should move character data to new hex", function () {
+
+		selectedCor = "hex2";
+		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
+		actionCor = "hex7";
+		objectFromActionCor = gamelogic.gameState.grid[actionCor];
+
+		gamelogic.move(objectFromSelectedCor, selectedCor, actionCor);
+
+		expect(gamelogic.gameState.grid["hex7"]).toEqual({"owner": "p1", "type": "rock", "health": 1});
+		expect(gamelogic.gameState.grid["hex2"]).toEqual({"owner": null, "type": null, "health": null});
+
+	});
+
+});
+
+
+describe("resolveMove that has no battle", function () {
+
+	beforeAll(function () {
+
+		initGameReady(); // Initialize Game Setup, characters placed, no moves made yet
+
+		var selectedCor,
+				objectFromSelectedCor,
+				actionCor,
+				objectFromActionCor;
+
+	});
+
+	afterAll(function () {
+
+		resetGameState();
+
+	});
+
+
+	it("should move character data to new hex if hex is empty", function () {
+
+		selectedCor = "hex2";
+		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
+		actionCor = "hex7";
+		objectFromActionCor = gamelogic.gameState.grid[actionCor];
+
+		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
+
+		expect(gamelogic.gameState.grid["hex7"]).toEqual({"owner": "p1", "type": "rock", "health": 1});
+		expect(gamelogic.gameState.grid["hex2"]).toEqual({"owner": null, "type": null, "health": null});
+
+	});
+
+	it("should have action points decremented after move", function () {
+
+		selectedCor = "hex7";
+		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
+		actionCor = "hex13";
+		objectFromActionCor = gamelogic.gameState.grid[actionCor];
+
+		expect(gamelogic.gameState.gameStatus.AP).toEqual(1); // since prev it block made move
+
+		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor); // make second move
+
+		expect(gamelogic.gameState.gameStatus.AP).toEqual(0);
+
+	});
+
+	it("should pass turn to next player if no AP are left", function () {
+		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
+	});
+
+});
