@@ -28,55 +28,52 @@ let gamelogic = {
 	},
 
 	validMove: function ( selectedCor, actionCor ) {
-			if ( validMoves[selectedCor][actionCor] ) {
-				return validMoves[selectedCor][actionCor];
+			if ( gamelogic.validMoves[selectedCor][actionCor] ) {
+				return true;
 			} else {
 				return false;
 			}
 	},
 
-	canMove: function ( selectedCor ) { // show valid move spaces
-		// loop through validMoves for selectedCor
-		// add class .canMove to each hex
+	move: function ( objectFromSelectedCor, moveFrom, moveTo ) {
+		gamelogic.gameState.grid[moveTo] = objectFromSelectedCor;
+		gamelogic.gameState.grid[moveFrom] = gamelogic.emptyBoardObject
+		gamelogic.useAP();
 	},
 
-	resolveMove: function ( selectedCor, ObjectFromSelectedCor, actionCor, ObjectFromActionCor ) {
-		// if ( valid move && ObjectFromActionCor.owner === null ) {
-	  //	move (ObjectFromSelectedCor, selectedCor, actionCor);
+	resolveMove: function ( selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor ) {
+		if ( gamelogic.validMove( selectedCor, actionCor) && objectFromActionCor.owner === null ) {
+			gamelogic.move(objectFromSelectedCor, selectedCor, actionCor);
 		// else
-		//	var NewselectedCor = moveNextTo(selectedCor, actionCor);
-		//	move (ObjectFromSelectedCor, selectedCor, NewselectedCor);
-		// 	battle(NewselectedCor, ObjectFromSelectedCor, actionCor, ObjectFromActionCor);
-		// };
+		// 	var NewselectedCor = moveNextTo(selectedCor, actionCor);
+		// 	move (objectFromSelectedCor, selectedCor, NewselectedCor);
+		// 	battle(NewselectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
+		};
 	},
 
-	moveNextTo: function ( selectedCor, actionCor ) { // Move next to defending character
-		switch ( selectedCor - actionCor) {
-			case IfXisNeg:  // Moving Right
-				// Add one to x of selectedCor
-				return;
-			case IfXisPos:  // Moving Left
-				// Subtract one to x of selectedCor
-				return;
-			case IfYisNeg:  // Moving Down
-				// Add one to y of selectedCor
-				return;
-			case IfYisPos:  // Moving Up
-				// Subtract one to y of selectedCor
-				return;
-			default:
-				return "Error";
+	useAP: function ( ) {
+		if ( gamelogic.gameState.gameStatus.AP > 1 ) {
+			gamelogic.gameState.gameStatus.AP -= 1
+		} else {
+			gamelogic.gameState.gameStatus.AP -= 1
+			gamelogic.endTurn();
 		}
 	},
 
-	move: function ( ObjectFromSelectedCor, moveFrom, MoveTo ) {
-		// gameboard[MoveTo] = ObjectFromSelectedCor;
-		// gameboard[MoveFrom] = EmptyBoardObject
+	endTurn: function () {
+		var currentPlayerNum = gamelogic.gameState.gameStatus.currentPlayer.split("player")[1];
+		var nextPlayer = "player" + (parseInt(currentPlayerNum) + 1);
+
+		if ( gamelogic.gameState.players[nextPlayer] )
+			gamelogic.gameState.gameStatus.currentPlayer = nextPlayer;
+		else {
+			gamelogic.gameState.gameStatus.currentPlayer = "player1";
+		}
 	},
 
-	battle: function( NewselectedCor, ObjectFromSelectedCor, actionCor, ObjectFromActionCor ) {
-		// var offender = [NewselectedCor, ObjectFromSelectedCor];
-		// var defender = [actionCor, ObjectFromActionCor];
+	battle: function( NewselectedCor, objectFromSelectedCor, actionCor, objectFromActionCor ) {
+		// var offender = [NewselectedCor, objectFromSelectedCor];
+		// var defender = [actionCor, objectFromActionCor];
 		// var loserCor;
 
 		// Compare offender[1] to defender[1]
@@ -87,7 +84,7 @@ let gamelogic = {
 		// } else {
 		//	loser(offender or defender);
 		//	if offender wins && gameboard[actionCor].owner === null {
-		//		move( offender[1], offender[0], MoveTo )
+		//		move( offender[1], offender[0], moveTo )
 		// 	}
 		//	endTurn(CurrentPlayer)
 		// }
@@ -98,7 +95,7 @@ let gamelogic = {
 	loser: function( loser, loserCor ) {
 		// loser.health -1
 		// if loser.health === 0
-		// 	gameboard[loserCor] = EmptyBoardObject
+		// 	gameboard[loserCor] = emptyBoardObject
 	},
 
 	swapOut: function() {
@@ -116,404 +113,402 @@ let gamelogic = {
 			return true;
 		},
 
-}; // END OF const gamelogic =
+	emptyBoardObject: { "owner": null, "type": null, "health": null },
 
-
-let validMoves = {
-		"hex1": {
-						 "blocked": true
-						},
-		"hex2": {
-						 "hex6": true,
-						 "hex7": true,
-						 "hex3": true
-						},
-		"hex3": {
-						 "hex2": true,
-						 "hex7": true,
-						 "hex8": true,
-						 "hex4": true
-						},
-		"hex4": {
-						 "hex3": true,
-						 "hex8": true,
-						 "hex9": true,
-					 },
-		"hex5": {
-						 "hex10": true,
-						 "hex11": true,
-						 "hex6": true,
-					 },
-		"hex6": {
-						 "hex2": true,
-						 "hex5": true,
-						 "hex7": true,
-						 "hex11": true,
-						 "hex12": true
-					 },
-		"hex7": {
-						 "hex2": true,
-						 "hex3": true,
-						 "hex6": true,
-						 "hex8": true,
-						 "hex12": true,
-						 "hex13": true
-					 },
-		"hex8": {
-						 "hex3": true,
-						 "hex4": true,
-						 "hex7": true,
-						 "hex9": true,
-						 "hex13": true,
-						 "hex14": true
-					 },
-		"hex9": {
-						 "hex4": true,
-						 "hex8": true,
-						 "hex14": true,
-						 "hex15": true
-					 },
-		"hex10": {
-						 "hex5": true,
-						 "hex6": true,
-						 "hex11": true,
-						 "hex16": true,
-						 "hex17": true,
-					 },
-		"hex11": {
-						 "hex5": true,
-						 "hex6": true,
-						 "hex10": true,
-						 "hex12": true,
-						 "hex17": true,
-						 "hex18": true
-					 },
-		"hex12": {
-						 "hex6": true,
-						 "hex7": true,
-						 "hex11": true,
-						 "hex13": true,
-						 "hex18": true,
-						 "hex19": true
-					 },
-		"hex13": {
-						 "hex7": true,
-						 "hex8": true,
-						 "hex12": true,
-						 "hex14": true,
-						 "hex19": true,
-						 "hex20": true
-					 },
-		"hex14": {
-						 "hex8": true,
-						 "hex9": true,
-						 "hex13": true,
-						 "hex15": true,
-						 "hex20": true,
-						 "hex21": true
-					 },
-		"hex15": {
-						 "hex9": true,
-						 "hex14": true,
-						 "hex21": true,
-						 "hex22": true
-					 },
-		"hex16":{
-						 "hex10": true,
-						 "hex17": true,
-						 "hex23": true
-					 },
-		"hex17":{
-						 "hex10": true,
-						 "hex11": true,
-						 "hex16": true,
-						 "hex18": true,
-						 "hex23": true,
-						 "hex24": true
-					 },
-		"hex18":{
-						 "hex11": true,
-						 "hex12": true,
-						 "hex17": true,
-						 "hex19": true,
-						 "hex24": true,
-						 "hex25": true
-					 },
-		"hex19":{
-						 "hex12": true,
-						 "hex13": true,
-						 "hex18": true,
-						 "hex20": true,
-						 "hex25": true,
-						 "hex26": true
-					 },
-		"hex20":{
-						 "hex13": true,
-						 "hex14": true,
-						 "hex19": true,
-						 "hex21": true,
-						 "hex26": true,
-						 "hex27": true
-					 },
-		"hex21":{
-						 "hex14": true,
-						 "hex15": true,
-						 "hex20": true,
-						 "hex22": true,
-						 "hex27": true,
-						 "hex28": true
-					 },
-		"hex22":{
-						 "hex15": true,
-						 "hex21": true,
-						 "hex28": true
-					 },
-		"hex23":{
-						 "hex16": true,
-						 "hex17": true,
-						 "hex24": true,
-						 "hex29": true
-					 },
-		"hex24":{
-						 "hex17": true,
-						 "hex18": true,
-						 "hex23": true,
-						 "hex25": true,
-						 "hex29": true,
-						 "hex30": true
-					 },
-		"hex25":{
-						 "hex18": true,
-						 "hex19": true,
-						 "hex24": true,
-						 "hex26": true,
-						 "hex30": true,
-						 "hex31": true
-					 },
-		"hex26":{
-						 "hex19": true,
-						 "hex20": true,
-						 "hex25": true,
-						 "hex27": true,
-						 "hex31": true,
-						 "hex32": true
-					 },
-		"hex27":{
-						 "hex20": true,
-						 "hex21": true,
-						 "hex26": true,
-						 "hex28": true,
-						 "hex32": true,
-						 "hex33": true
-					 },
-		"hex28":{
-						 "hex21": true,
-						 "hex22": true,
-						 "hex27": true,
-						 "hex33": true
-					 },
-		"hex29":{
-						 "hex23": true,
-						 "hex24": true,
-						 "hex30": true,
-						 "hex34": true
-					 },
-		"hex30":{
-						 "hex24": true,
-						 "hex25": true,
-						 "hex29": true,
-						 "hex31": true,
-						 "hex34": true,
-						 "hex35": true
-					 },
-		"hex31":{
-						 "hex25": true,
-						 "hex26": true,
-						 "hex30": true,
-						 "hex32": true,
-						 "hex35": true,
-						 "hex36": true
-					 },
-		"hex32":{
-						 "hex26": true,
-						 "hex27": true,
-						 "hex31": true,
-						 "hex33": true,
-						 "hex36": true
-					 },
-		"hex33":{
-						 "hex27": true,
-						 "hex28": true,
-						 "hex32": true
-					 },
-		"hex34":{
-						 "hex29": true,
-						 "hex30": true,
-						 "hex35": true
-					 },
-		"hex35":{
-						 "hex34": true,
-						 "hex30": true,
-						 "hex31": true,
-						 "hex36": true
-					 },
-		"hex36":{
-						 "hex31": true,
-						 "hex32": true,
-						 "hex35": true
-					 },
-		"hex37":{
-						 "blocked": true
-					 }
-		};
-
-
-let gamestate = {
-			"players": {
-				"player1": {
-					"name": "p1",
-					"reserve": {
-						"unit1": "Rock",
-						"unit2": "Rock",
-						"unit3": "Paper",
-						"unit4": "Paper",
-						"unit5": "Scissors",
-						"unit6": "Scissors"
-					},
-				},
-				"player2": {
-					"name": "p2",
-					"reserve": {
-						"unit1": "Rock",
-						"unit2": "Rock",
-						"unit3": "Paper",
-						"unit4": "Paper",
-						"unit5": "Scissors",
-						"unit6": "Scissors"
-					}
-				},
-			},
-			"gameStatus": {
-				"currentPlayer": "p1",
-				"mode": "setup",
-				"swaps": null,
-				"AP": null,
-			},
-			"grid": {
-				"hex1": {
-							 "owner": "blocked"
+	validMoves: {
+			"hex1": {
+							 "blocked": true
+							},
+			"hex2": {
+							 "hex6": true,
+							 "hex7": true,
+							 "hex3": true
+							},
+			"hex3": {
+							 "hex2": true,
+							 "hex7": true,
+							 "hex8": true,
+							 "hex4": true
+							},
+			"hex4": {
+							 "hex3": true,
+							 "hex8": true,
+							 "hex9": true,
 						 },
-				"hex2": {
-							 "owner": null, "type": null, "health": 1
+			"hex5": {
+							 "hex10": true,
+							 "hex11": true,
+							 "hex6": true,
 						 },
-				"hex3": {
-							 "owner": null, "type": null, "health": 1
+			"hex6": {
+							 "hex2": true,
+							 "hex5": true,
+							 "hex7": true,
+							 "hex11": true,
+							 "hex12": true
 						 },
-				"hex4": {
-							 "owner": null, "type": null, "health": 1
+			"hex7": {
+							 "hex2": true,
+							 "hex3": true,
+							 "hex6": true,
+							 "hex8": true,
+							 "hex12": true,
+							 "hex13": true
 						 },
-				"hex5": {
-							 "owner": null, "type": null, "health": 1
+			"hex8": {
+							 "hex3": true,
+							 "hex4": true,
+							 "hex7": true,
+							 "hex9": true,
+							 "hex13": true,
+							 "hex14": true
 						 },
-				"hex6": {
-							 "owner": null, "type": null, "health": 1
+			"hex9": {
+							 "hex4": true,
+							 "hex8": true,
+							 "hex14": true,
+							 "hex15": true
 						 },
-				"hex7": {
-							 "owner": null, "type": null, "health": 1
+			"hex10": {
+							 "hex5": true,
+							 "hex6": true,
+							 "hex11": true,
+							 "hex16": true,
+							 "hex17": true,
 						 },
-				"hex8": {
-							 "owner": null, "type": null, "health": 1
+			"hex11": {
+							 "hex5": true,
+							 "hex6": true,
+							 "hex10": true,
+							 "hex12": true,
+							 "hex17": true,
+							 "hex18": true
 						 },
-				"hex9": {
-							 "owner": null, "type": null, "health": 1
+			"hex12": {
+							 "hex6": true,
+							 "hex7": true,
+							 "hex11": true,
+							 "hex13": true,
+							 "hex18": true,
+							 "hex19": true
 						 },
-				"hex10": {
-							 "owner": null, "type": null, "health": 1
+			"hex13": {
+							 "hex7": true,
+							 "hex8": true,
+							 "hex12": true,
+							 "hex14": true,
+							 "hex19": true,
+							 "hex20": true
 						 },
-				"hex11": {
-							 "owner": null, "type": null, "health": 1
+			"hex14": {
+							 "hex8": true,
+							 "hex9": true,
+							 "hex13": true,
+							 "hex15": true,
+							 "hex20": true,
+							 "hex21": true
 						 },
-				"hex12": {
-							 "owner": null, "type": null, "health": 1
+			"hex15": {
+							 "hex9": true,
+							 "hex14": true,
+							 "hex21": true,
+							 "hex22": true
 						 },
-				"hex13": {
-							 "owner": null, "type": null, "health": 1
+			"hex16":{
+							 "hex10": true,
+							 "hex17": true,
+							 "hex23": true
 						 },
-				"hex14": {
-							 "owner": null, "type": null, "health": 1
+			"hex17":{
+							 "hex10": true,
+							 "hex11": true,
+							 "hex16": true,
+							 "hex18": true,
+							 "hex23": true,
+							 "hex24": true
 						 },
-				"hex15": {
-							 "owner": null, "type": null, "health": 1
+			"hex18":{
+							 "hex11": true,
+							 "hex12": true,
+							 "hex17": true,
+							 "hex19": true,
+							 "hex24": true,
+							 "hex25": true
 						 },
-				"hex16": {
-							 "owner": null, "type": null, "health": 1
+			"hex19":{
+							 "hex12": true,
+							 "hex13": true,
+							 "hex18": true,
+							 "hex20": true,
+							 "hex25": true,
+							 "hex26": true
 						 },
-				"hex17": {
-							 "owner": null, "type": null, "health": 1
+			"hex20":{
+							 "hex13": true,
+							 "hex14": true,
+							 "hex19": true,
+							 "hex21": true,
+							 "hex26": true,
+							 "hex27": true
 						 },
-				"hex18": {
-							 "owner": null, "type": null, "health": 1
+			"hex21":{
+							 "hex14": true,
+							 "hex15": true,
+							 "hex20": true,
+							 "hex22": true,
+							 "hex27": true,
+							 "hex28": true
 						 },
-				"hex19": {
-							 "owner": null, "type": null, "health": 1
+			"hex22":{
+							 "hex15": true,
+							 "hex21": true,
+							 "hex28": true
 						 },
-				"hex20": {
-							 "owner": null, "type": null, "health": 1
+			"hex23":{
+							 "hex16": true,
+							 "hex17": true,
+							 "hex24": true,
+							 "hex29": true
 						 },
-				"hex21": {
-							 "owner": null, "type": null, "health": 1
+			"hex24":{
+							 "hex17": true,
+							 "hex18": true,
+							 "hex23": true,
+							 "hex25": true,
+							 "hex29": true,
+							 "hex30": true
 						 },
-				"hex22": {
-							 "owner": null, "type": null, "health": 1
+			"hex25":{
+							 "hex18": true,
+							 "hex19": true,
+							 "hex24": true,
+							 "hex26": true,
+							 "hex30": true,
+							 "hex31": true
 						 },
-				"hex23": {
-							 "owner": null, "type": null, "health": 1
+			"hex26":{
+							 "hex19": true,
+							 "hex20": true,
+							 "hex25": true,
+							 "hex27": true,
+							 "hex31": true,
+							 "hex32": true
 						 },
-				"hex24": {
-							 "owner": null, "type": null, "health": 1
+			"hex27":{
+							 "hex20": true,
+							 "hex21": true,
+							 "hex26": true,
+							 "hex28": true,
+							 "hex32": true,
+							 "hex33": true
 						 },
-				"hex25": {
-							 "owner": null, "type": null, "health": 1
+			"hex28":{
+							 "hex21": true,
+							 "hex22": true,
+							 "hex27": true,
+							 "hex33": true
 						 },
-				"hex26": {
-							 "owner": null, "type": null, "health": 1
+			"hex29":{
+							 "hex23": true,
+							 "hex24": true,
+							 "hex30": true,
+							 "hex34": true
 						 },
-				"hex27": {
-							 "owner": null, "type": null, "health": 1
+			"hex30":{
+							 "hex24": true,
+							 "hex25": true,
+							 "hex29": true,
+							 "hex31": true,
+							 "hex34": true,
+							 "hex35": true
 						 },
-				"hex28": {
-							 "owner": null, "type": null, "health": 1
+			"hex31":{
+							 "hex25": true,
+							 "hex26": true,
+							 "hex30": true,
+							 "hex32": true,
+							 "hex35": true,
+							 "hex36": true
 						 },
-				"hex29": {
-							 "owner": null, "type": null, "health": 1
+			"hex32":{
+							 "hex26": true,
+							 "hex27": true,
+							 "hex31": true,
+							 "hex33": true,
+							 "hex36": true
 						 },
-				"hex30": {
-							 "owner": null, "type": null, "health": 1
+			"hex33":{
+							 "hex27": true,
+							 "hex28": true,
+							 "hex32": true
 						 },
-				"hex31": {
-							 "owner": null, "type": null, "health": 1
+			"hex34":{
+							 "hex29": true,
+							 "hex30": true,
+							 "hex35": true
 						 },
-				"hex32": {
-							 "owner": null, "type": null, "health": 1
+			"hex35":{
+							 "hex34": true,
+							 "hex30": true,
+							 "hex31": true,
+							 "hex36": true
 						 },
-				"hex33": {
-							 "owner": null, "type": null, "health": 1
+			"hex36":{
+							 "hex31": true,
+							 "hex32": true,
+							 "hex35": true
 						 },
-				"hex34": {
-							 "owner": null, "type": null, "health": 1
-						 },
-				"hex35": {
-							 "owner": null, "type": null, "health": 1
-						 },
-				"hex36": {
-							 "owner": null, "type": null, "health": 1
-						 },
-				"hex37": {
-							 "owner": "blocked"
+			"hex37":{
+							 "blocked": true
 						 }
-				} // end of grid:
-			};
+			},
 
+			gameState: {
+						"players": {
+							"player1": {
+								"name": "p1",
+								"reserve": {
+									"unit1": "Rock",
+									"unit2": "Rock",
+									"unit3": "Paper",
+									"unit4": "Paper",
+									"unit5": "Scissors",
+									"unit6": "Scissors"
+								},
+							},
+							"player2": {
+								"name": "p2",
+								"reserve": {
+									"unit1": "Rock",
+									"unit2": "Rock",
+									"unit3": "Paper",
+									"unit4": "Paper",
+									"unit5": "Scissors",
+									"unit6": "Scissors"
+								}
+							},
+						},
+						"gameStatus": {
+							"currentPlayer": "player1",
+							"mode": "setup",
+							"swaps": null,
+							"AP": null,
+						},
+						"grid": {
+							"hex1": {
+										 "owner": "blocked"
+									 },
+							"hex2": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex3": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex4": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex5": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex6": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex7": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex8": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex9": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex10": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex11": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex12": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex13": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex14": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex15": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex16": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex17": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex18": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex19": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex20": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex21": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex22": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex23": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex24": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex25": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex26": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex27": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex28": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex29": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex30": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex31": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex32": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex33": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex34": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex35": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex36": {
+										 "owner": null, "type": null, "health": null
+									 },
+							"hex37": {
+										 "owner": "blocked"
+									 }
+							} // end of grid:
+			}
+}; // END OF const gamelogic =
 
 
 
