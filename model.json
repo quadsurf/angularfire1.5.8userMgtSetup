@@ -1,0 +1,25 @@
+{
+	"users" : {
+		"id" : {"nickname":null,"email":null,"wins":null}
+	},
+	"games"	: [
+		{
+		"players": [{"player": "p1", "reserve":["R", "R", "P", "P", "S", "S"]}, null],
+		"gameState": {
+			"currentPlayer": null,
+			"mode": "setup",
+			"swaps": null,
+			"AP": null,
+		},
+		"grid"	:	[
+      [{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+      [{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+      [{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+			[{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+			[{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+			[{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+			[{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}]
+      ]
+		}
+	]
+}
