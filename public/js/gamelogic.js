@@ -4,7 +4,7 @@
 let playerList = [];
 
 
-const gamelogic = {
+let gamelogic = {
 
 	randomRPS: function() {
 		let choice = Math.floor(Math.random() * (3)) + 1;
