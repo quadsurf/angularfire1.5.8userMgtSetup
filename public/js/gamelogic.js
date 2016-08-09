@@ -35,6 +35,26 @@ let gamelogic = {
 			}
 	},
 
+	endTurn: function () {
+		var currentPlayerNum = gamelogic.gameState.gameStatus.currentPlayer.split("player")[1];
+		var nextPlayer = "player" + (parseInt(currentPlayerNum) + 1);
+
+		if ( gamelogic.gameState.players[nextPlayer] )
+		gamelogic.gameState.gameStatus.currentPlayer = nextPlayer;
+		else {
+			gamelogic.gameState.gameStatus.currentPlayer = "player1";
+		}
+	},
+
+	useAP: function ( ) {
+		if ( gamelogic.gameState.gameStatus.AP > 1 ) {
+			gamelogic.gameState.gameStatus.AP -= 1
+		} else {
+			gamelogic.gameState.gameStatus.AP -= 1
+			gamelogic.endTurn();
+		}
+	},
+
 	move: function ( objectFromSelectedCor, moveFrom, moveTo ) {
 		gamelogic.gameState.grid[moveTo] = objectFromSelectedCor;
 		gamelogic.gameState.grid[moveFrom] = gamelogic.emptyBoardObject
@@ -49,26 +69,6 @@ let gamelogic = {
 		// 	move (objectFromSelectedCor, selectedCor, NewselectedCor);
 		// 	battle(NewselectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
 		};
-	},
-
-	useAP: function ( ) {
-		if ( gamelogic.gameState.gameStatus.AP > 1 ) {
-			gamelogic.gameState.gameStatus.AP -= 1
-		} else {
-			gamelogic.gameState.gameStatus.AP -= 1
-			gamelogic.endTurn();
-		}
-	},
-
-	endTurn: function () {
-		var currentPlayerNum = gamelogic.gameState.gameStatus.currentPlayer.split("player")[1];
-		var nextPlayer = "player" + (parseInt(currentPlayerNum) + 1);
-
-		if ( gamelogic.gameState.players[nextPlayer] )
-			gamelogic.gameState.gameStatus.currentPlayer = nextPlayer;
-		else {
-			gamelogic.gameState.gameStatus.currentPlayer = "player1";
-		}
 	},
 
 	battle: function( NewselectedCor, objectFromSelectedCor, actionCor, objectFromActionCor ) {
