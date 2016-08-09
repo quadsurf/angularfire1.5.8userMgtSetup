@@ -1,2 +1,35 @@
-<h1>users</h1>
+<h1>USERS</h1>
+
+<div ng-show="firebaseUser">
+    <p>Hello, {{ firebaseUser.displayName || firebaseUser.email }}</p>
+    <button ng-click="auth.$signOut()">Sign Out</button>
+  </div>
+  <div ng-hide="firebaseUser">
+    <p>Welcome, please sign in.</p>
+    <button ng-click="auth.$signInWithPopup('facebook')">Sign In With Facebook</button>
+  </div>
+
+<hr>
+
+<input type="text" ng-model="data.text"/>
+<h1>You said: {{ data.text }}</h1>
+
+<hr>
+
+Email: <input type="text" ng-model="email"><br>
+Password: <input type="text" ng-model="password">
+{{email}} | {{password}}
+<!-- {{users | json}} -->
+
+  <br><br>
+
+  <button ng-click="createUser(email,password,displayName)">Create User</button>
+
+  <br><br>
+
+  <button ng-click="deleteUser()">Delete User</button>
+
+  <p ng-if="message">Message: <strong>{{ message }}</strong></p>
+  <p ng-if="error">Error: <strong>{{ error }}</strong></p>
+
 <ui-view></ui-view>

@@ -4,13 +4,21 @@
 	},
 	"games"	: [
 		{
-		"players": [null, null],
-		"socket" : false,
+		"players": [{"player": "p1", "reserve":["R", "R", "P", "P", "S", "S"]}, null],
+		"gameState": {
+			"currentPlayer": null,
+			"mode": "setup",
+			"swaps": null,
+			"AP": null,
+		},
 		"grid"	:	[
-      [{"owner": null, "character": null, "type": "rock", "health": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
-      [{"owner": null, "character": null, "type": "rock", "health": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
-      [{"owner": null, "character": null, "type": "rock", "health": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
-			[{"owner": null, "character": null, "type": "rock", "health": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}]
+      [{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+      [{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+      [{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+			[{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+			[{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+			[{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
+			[{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}]
       ]
 		}
 	]

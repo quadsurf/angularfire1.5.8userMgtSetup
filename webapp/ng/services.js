@@ -4,25 +4,32 @@
 
   angular
     .module('rpsApp')
-    .service('getUsersService',['$http','$firebaseArray',function($http,$firebaseArray){
+    .service('getUsersService',['$scope','$http','$firebaseObject',
+                        function($scope, $http, $firebaseObject){
 
 
 
     }])
 
-    .service('newGameService',['$http','$firebaseArray',function($http,$firebaseArray){
+    .service('authService',['$firebaseAuth',function($firebaseAuth){
+
+      return $firebaseAuth();
+
+    }])
+
+    .service('newGameService',['$http','$firebaseObject',function($http,$firebaseObject){
 
 
 
     }])
 
-    .service('setupGameService',['$http','$firebaseArray',function($http,$firebaseArray){
+    .service('setupGameService',['$http','$firebaseObject',function($http,$firebaseObject){
 
 
 
     }])
 
-    .service('getGameService',['$http','$firebaseArray',function($http,$firebaseArray){
+    .service('getGameService',['$http','$firebaseObject',function($http,$firebaseObject){
 
 
 
