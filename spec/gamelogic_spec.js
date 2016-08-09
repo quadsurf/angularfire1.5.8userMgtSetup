@@ -234,6 +234,23 @@ describe("vaildMove", function () {
 
 });
 
+
+describe("endTurn", function () {
+
+	afterAll(function () {
+
+		resetGameState();
+
+	});
+
+	it("should pass turn to next player", function () {
+		gamelogic.endTurn();
+		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
+	});
+
+});
+
+
 describe("useAP", function () {
 
 	beforeAll(function () {
