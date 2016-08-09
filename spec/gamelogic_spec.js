@@ -234,6 +234,33 @@ describe("vaildMove", function () {
 
 });
 
+describe("useAP", function () {
+
+	beforeAll(function () {
+
+		gamelogic.gameState.gameStatus.AP = 2;
+
+	});
+
+	afterAll(function () {
+
+		gamelogic.gameState.gameStatus.AP = null;
+
+	});
+
+	it("should decrement AP", function () {
+		gamelogic.useAP();
+		expect(gamelogic.gameState.gameStatus.AP).toEqual(1);
+		gamelogic.useAP();
+		expect(gamelogic.gameState.gameStatus.AP).toEqual(0);
+	});
+
+	it("should pass turn to next player if no AP are left", function () {
+		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
+	});
+
+});
+
 
 describe("move", function () {
 
