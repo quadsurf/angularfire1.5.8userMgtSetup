@@ -610,7 +610,7 @@ describe("resolveMove() that has battle", function () {
 		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": "player2", "type": "rock", "health": 1});
 		expect(gamelogic.gameState.grid[selectedCor]).toEqual(gamelogic.emptyBoardObject);
 
-	});g
+	});
 
 	it("should pass turn to next player if no AP are left", function () {
 		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");

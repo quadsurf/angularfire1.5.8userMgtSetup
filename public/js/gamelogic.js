@@ -56,21 +56,24 @@ let gamelogic = {
 			}
 	},
 
-	endTurn: function () {
+	findNextPlayer: function(){
 		var currentPlayerNum = gamelogic.gameState.gameStatus.currentPlayer.split("player")[1];
 		var nextPlayer = "player" + (parseInt(currentPlayerNum) + 1);
 
 		if ( gamelogic.gameState.players[nextPlayer] )
-			gamelogic.gameState.gameStatus.currentPlayer = nextPlayer;
+			return nextPlayer;
 		else {
-			gamelogic.gameState.gameStatus.currentPlayer = "player1";
+			return "player1";
 		}
+	},
 
+	endTurn: function () {
 		gamelogic.gameState.gameStatus.AP = 2;
+		gamelogic.passTurn( gamelogic.findNextPlayer() );
 	},
 
 	passTurn: function ( passTo ) {
-		// gamelogic.gameState.gameStatus.currentPlayer = passTo;
+		gamelogic.gameState.gameStatus.currentPlayer = passTo;
 	},
 
 	useAP: function ( ) {
