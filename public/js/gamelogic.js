@@ -184,9 +184,9 @@ let gamelogic = {
 		if ( gamelogic.validMove( selectedCor, actionCor) ) {
 			if ( objectFromActionCor.owner === null ) {
 				gamelogic.move(objectFromSelectedCor, selectedCor, actionCor);
-			} // else {
-		//	 battle(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
-		//}
+			} else {
+			 gamelogic.battle(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
+		}
 		}
 	},
 

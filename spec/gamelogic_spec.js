@@ -531,48 +531,57 @@ describe("resolveMove() that has no battle", function () {
 });
 
 
-// describe("resolveMove() that has battle", function () {
-//
-// 	beforeAll(function () {
-//
-// 		initBattleReady(); // Initialize Game Setup, characters placed, ready to battle
-//
-// 		var selectedCor,
-// 				objectFromSelectedCor,
-// 				actionCor,
-// 				objectFromActionCor;
-//
-// 	});
-//
-// 	afterAll(function () {
-//
-// 		resetGameState();
-//
-// 	});
-//
-//
-// 	it("should resolve battle", function () {
-//
-//
-// 	});
-//
-// 	// it("should have action points decremented after move", function () {
-// 	//
-// 	// 	selectedCor = "hex7";
-// 	// 	objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
-// 	// 	actionCor = "hex13";
-// 	// 	objectFromActionCor = gamelogic.gameState.grid[actionCor];
-// 	//
-// 	// 	expect(gamelogic.gameState.gameStatus.AP).toEqual(1); // since prev it block made move
-// 	//
-// 	// 	gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor); // make second move
-// 	//
-// 	// 	expect(gamelogic.gameState.gameStatus.AP).toEqual(0);
-// 	//
-// 	// });
-//
-// 	// it("should pass turn to next player if no AP are left", function () {
-// 	// 	expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
-// 	// });
-//
-// });
+describe("resolveMove() that has battle", function () {
+
+	beforeAll(function () {
+
+		initBattleReady(); // Initialize Game Setup, characters placed, ready to battle
+
+		var selectedCor,
+				objectFromSelectedCor,
+				actionCor,
+				objectFromActionCor;
+
+	});
+
+	afterAll(function () {
+
+		resetGameState();
+
+	});
+
+
+	it("should resolve move with a battle", function () {
+
+		selectedCor = "hex29";
+		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
+		actionCor = "hex34";
+		objectFromActionCor = gamelogic.gameState.grid[actionCor];
+
+		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
+
+		expect(gamelogic.gameState.grid[actionCor]).toEqual(objectFromSelectedCor);
+		expect(gamelogic.gameState.grid[selectedCor]).toEqual(gamelogic.emptyBoardObject);
+
+	});
+
+	it("should have action points decremented after move", function () {
+
+		selectedCor = "hex34";
+		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
+		actionCor = "hex35";
+		objectFromActionCor = gamelogic.gameState.grid[actionCor];
+
+		expect(gamelogic.gameState.gameStatus.AP).toEqual(1); // since prev it block made move
+
+		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor); // make second move
+
+		expect(gamelogic.gameState.gameStatus.AP).toEqual(0);
+
+	});
+
+	it("should pass turn to next player if no AP are left", function () {
+		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
+	});
+
+});
