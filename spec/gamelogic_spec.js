@@ -203,7 +203,7 @@ describe("check to see if can import functions", function () {
 
 // TESTS:
 
-describe("randomRPS", function () {
+describe("randomRPS()", function () {
 
 	var rpsCheck = function(value) {
 		return ( value === "rock" || value === "paper" || value === "scissors" );
@@ -220,7 +220,7 @@ describe("randomRPS", function () {
 });
 
 
-describe("vaildMove", function () {
+describe("vaildMove()", function () {
 
 	it("should return true is move valid", function () {
 		expect(gamelogic.validMove("hex5", "hex6")).toEqual(true);
@@ -235,7 +235,7 @@ describe("vaildMove", function () {
 });
 
 
-describe("endTurn", function () {
+describe("endTurn()", function () {
 
 	afterAll(function () {
 
@@ -251,7 +251,7 @@ describe("endTurn", function () {
 });
 
 
-describe("useAP", function () {
+describe("useAP()", function () {
 
 	beforeAll(function () {
 
@@ -279,7 +279,7 @@ describe("useAP", function () {
 });
 
 
-describe("move", function () {
+describe("move()", function () {
 
 	beforeAll(function () {
 
