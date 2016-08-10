@@ -21,13 +21,18 @@
       // $firebaseObject(firebase.database().ref().child("users")).$bindTo(s,"users");
 
 
-      let ref = firebase.database().ref().child("data");
+      // let ref = firebase.database().ref().child("data");
+      //
+      // let syncObject = $firebaseObject(ref);
+      //
+      // syncObject.$bindTo(s, "data");
 
-      let syncObject = $firebaseObject(ref);
+      let ref = firebase.database().ref().child("validmoves");
 
-      syncObject.$bindTo(s, "data");
+      let syncMoves = $firebaseObject(ref);
 
-      //       name: getName(authData)
+      syncMoves.$bindTo(s, "validmoves");
+
 
       //DELETE USER
       s.deleteUser = function() {
@@ -109,7 +114,7 @@
 
             var ref = firebase.database().ref().child("users");
             var users = $firebaseObject(ref);
-            var uid = s.firebaseUser.uid;            
+            var uid = s.firebaseUser.uid;
 
             s.firebaseUser.providerData[0].score = 0;
 
