@@ -276,9 +276,15 @@
 				},
 			},
 			"gameStatus": {
-				"currentPlayer": "p1",
+				"currentPlayer": "player1",
 				"mode": "setup",
-				"swaps": null,
+				"swaps": {
+					"numberOf": null,
+					"players": {
+						"first": null,
+						"second": null
+					}
+				},
 				"AP": null,
 			},
 			"grid": {

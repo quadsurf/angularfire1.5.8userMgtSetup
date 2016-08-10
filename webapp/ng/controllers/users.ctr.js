@@ -34,17 +34,20 @@
       syncMoves.$bindTo(s, "validmoves");
 
 
+
+
+
       //DELETE USER
-      s.deleteUser = function() {
-        s.message = null;
-        s.error = null;
-        authService.$deleteUser().then(function() {
-          s.message = "Sorry to see you go. Your account has been removed.";
-          })
-          .catch(function(error) {
-            s.error = error;
-          });
-      };
+      // s.deleteUser = function() {
+      //   s.message = null;
+      //   s.error = null;
+      //   authService.$deleteUser().then(function() {
+      //     s.message = "Sorry to see you go. Your account has been removed.";
+      //     })
+      //     .catch(function(error) {
+      //       s.error = error;
+      //     });
+      // };
 
       //EMAIL SIGNUPS
       s.createUser = function() {
@@ -136,39 +139,12 @@
 
       });
 
-      // //RETRIEVE AUTHENTICATED STATE
-      // s.auth = authService;
-      // // any time auth state changes, add user data to scope
-      // s.auth.$onAuthStateChanged(function(firebaseUser) {
-      //   if (firebaseUser){
-      //     s.user = firebaseUser;
-      //     s.uid = s.user.uid;
-      //
-      //   let ref = firebase.database().child("users").child(s.uid);
-      //
-      //   addUserService(ref)
-      //     .then(function(){
-      //       alert('user added to db');
-      //     },function(error){
-      //       console.log('Oops:', error);
-      //     });
-      //
-      //   console.log(s.firebaseUser.uid);
-      //
-      //   }
-      // });//END RETRIEVE AUTHENTICATED STATE
 
-      //EXAMPLE
-      // {
-      //   "profiles": {
-      //      "physicsmarie": {
-      //         name: "Marie Curie",
-      //         dob: "November 7, 1867"
-      //      }
-      //   }
-      // }
-      // var ref = firebase.database().ref();
-      // $scope.profile = $firebaseObject(ref.child('profiles').child('physicsmarie'));
+      $scope.authObj.$signInWithEmailAndPassword("my@email.com", "password").then(function(firebaseUser) {
+        console.log("Signed in as:", firebaseUser.uid);
+      }).catch(function(error) {
+        console.error("Authentication failed:", error);
+      });
 
 
       function showToast(message){
