@@ -61,30 +61,68 @@ let gamelogic = {
 		gamelogic.useAP();
 	},
 
-	resolveMove: function ( selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor ) {
-		if ( gamelogic.validMove( selectedCor, actionCor) && objectFromActionCor.owner === null ) {
-			gamelogic.move(objectFromSelectedCor, selectedCor, actionCor);
-		// else
-		// 	var NewselectedCor = moveNextTo(selectedCor, actionCor);
-		// 	move (objectFromSelectedCor, selectedCor, NewselectedCor);
-		// 	battle(NewselectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
-		};
+	battle: function( NewselectedCor, objectFromSelectedCor, actionCor, objectFromActionCor ){
+		var attacker = [NewselectedCor, objectFromSelectedCor];
+		var defender = [actionCor, objectFromActionCor];
+		var outcome = {};
+
+		switch (attacker[1].type + defender[1].type) {
+
+			// rock
+			case "rockrock":
+				outcome = {"winner": "tie", "loser": "tie"};
+				break;
+			case "rockpaper":
+				outcome = {"winner": defender, "loser": attacker};
+				break;
+			case "rockscissors":
+				outcome = {"winner": attacker, "loser": defender};
+				break;
+
+			// paper
+			case "paperpaper":
+				outcome = {"winner": "tie", "loser": "tie"};
+				break;
+			case "paperrock":
+				outcome = {"winner": attacker, "loser": defender};
+				break;
+			case "paperscissors":
+				outcome = {"winner": defender, "loser": attacker};
+				break;
+
+			// scissors
+			case "scissorsscissors":
+				outcome = {"winner": "tie", "loser": "tie"};
+				break;
+			case "scissorspaper":
+				outcome = {"winner": attacker, "loser": defender};
+				break;
+			case "scissorsrock":
+				outcome = {"winner": defender, "loser": attacker};
+				break;
+
+			default:
+				outcome = "ERROR";
+				break;
+		}
+
+		return outcome;
 	},
 
-	battle: function( NewselectedCor, objectFromSelectedCor, actionCor, objectFromActionCor ) {
-		// var offender = [NewselectedCor, objectFromSelectedCor];
-		// var defender = [actionCor, objectFromActionCor];
-		// var loserCor;
+	resolveBattle: function( winner, loser ) {
 
-		// Compare offender[1] to defender[1]
+		//var outcome = checkWinner([NewselectedCor, objectFromSelectedCor], [actionCor, objectFromActionCor]);
+
+		// var winner = outcome.winner;
+		// var loser = outcome.loser;
 
 		// if TIE {
 		//	swapOut(CurrentPlayer) character from reserve
 		//	endTurn(CurrentPlayer)
 		// } else {
-		//	loser(offender or defender);
-		//	if offender wins && gameboard[actionCor].owner === null {
-		//		move( offender[1], offender[0], moveTo )
+		//	loser(attacker or defender);
+		//	if attacker wins && gameboard[actionCor].owner === null {
+		//		move( attacker[1], attacker[0], moveTo )
 		// 	}
 		//	endTurn(CurrentPlayer)
 		// }
@@ -102,6 +140,16 @@ let gamelogic = {
 		// each player can swap from their reserve
 		// then battle() again
 		return;
+	},
+
+	resolveMove: function ( selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor ) {
+		if ( gamelogic.validMove( selectedCor, actionCor) && objectFromActionCor.owner === null ) {
+			gamelogic.move(objectFromSelectedCor, selectedCor, actionCor);
+		// else
+		// 	var NewselectedCor = moveNextTo(selectedCor, actionCor);
+		// 	move (objectFromSelectedCor, selectedCor, NewselectedCor);
+		// 	battle(NewselectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
+		};
 	},
 
 	placeCharacter: function() {

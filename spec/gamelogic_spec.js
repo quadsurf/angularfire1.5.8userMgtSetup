@@ -369,3 +369,84 @@ describe("resolveMove that has no battle", function () {
 	});
 
 });
+
+
+describe("battle", function () {
+
+	var p1rock = {"owner": "p1", "type": "rock", "health": 1};
+	var p2rock = {"owner": "p2", "type": "rock", "health": 1};
+	var p1paper = {"owner": "p1", "type": "paper", "health": 1};
+	var p2paper = {"owner": "p2", "type": "paper", "health": 1};
+	var p1scissors = {"owner": "p1", "type": "scissors", "health": 1};
+	var p2scissors = {"owner": "p2", "type": "scissors", "health": 1};
+
+	var selectedCor = "hex12";
+	var actionCor = "hex19";
+
+
+	it("should return results object with tie outcome", function () {
+		expect(gamelogic.battle(selectedCor, p1rock, actionCor, p2rock)).toEqual({"winner": "tie", "loser": "tie"});
+		expect(gamelogic.battle(selectedCor, p1paper, actionCor, p2paper)).toEqual({"winner": "tie", "loser": "tie"});
+		expect(gamelogic.battle(selectedCor, p1scissors, actionCor, p2scissors)).toEqual({"winner": "tie", "loser": "tie"});
+	});
+
+	it("should return results object with attacker as winner", function () {
+		expect(gamelogic.battle(selectedCor, p1rock, actionCor, p2scissors)).toEqual({"winner": [selectedCor, p1rock], "loser": [actionCor, p2scissors]});
+		expect(gamelogic.battle(selectedCor, p1paper, actionCor, p2rock)).toEqual({"winner": [selectedCor, p1paper], "loser": [actionCor, p2rock]});
+		expect(gamelogic.battle(selectedCor, p1scissors, actionCor, p2paper)).toEqual({"winner": [selectedCor, p1scissors], "loser": [actionCor, p2paper]});
+	});
+
+	it("should return results object with attacker as loser", function () {
+		expect(gamelogic.battle(selectedCor, p1rock, actionCor, p2paper)).toEqual({"winner": [actionCor, p2paper], "loser": [selectedCor, p1rock]});
+		expect(gamelogic.battle(selectedCor, p1paper, actionCor, p2scissors)).toEqual({"winner": [actionCor, p2scissors], "loser": [selectedCor, p1paper]});
+		expect(gamelogic.battle(selectedCor, p1scissors, actionCor, p2rock)).toEqual({"winner": [actionCor, p2rock], "loser": [selectedCor, p1scissors]});
+	});
+
+});
+
+
+// describe("resolveMove that has battle", function () {
+//
+// 	beforeAll(function () {
+//
+// 		initGameReady(); // Initialize Game Setup, characters placed, no moves made yet
+//
+// 		var selectedCor,
+// 				objectFromSelectedCor,
+// 				actionCor,
+// 				objectFromActionCor;
+//
+// 	});
+//
+// 	afterAll(function () {
+//
+// 		resetGameState();
+//
+// 	});
+//
+//
+// 	// it("should resolve battle", function () {
+// 	//
+// 	//
+// 	// });
+//
+// 	// it("should have action points decremented after move", function () {
+// 	//
+// 	// 	selectedCor = "hex7";
+// 	// 	objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
+// 	// 	actionCor = "hex13";
+// 	// 	objectFromActionCor = gamelogic.gameState.grid[actionCor];
+// 	//
+// 	// 	expect(gamelogic.gameState.gameStatus.AP).toEqual(1); // since prev it block made move
+// 	//
+// 	// 	gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor); // make second move
+// 	//
+// 	// 	expect(gamelogic.gameState.gameStatus.AP).toEqual(0);
+// 	//
+// 	// });
+//
+// 	// it("should pass turn to next player if no AP are left", function () {
+// 	// 	expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
+// 	// });
+//
+// });
