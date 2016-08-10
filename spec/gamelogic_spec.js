@@ -278,6 +278,30 @@ describe("vaildMove()", function () {
 });
 
 
+describe("passTurn()", function () {
+
+	afterEach(function () {
+
+		resetGameState();
+
+	});
+
+	it("should pass turn to specified player", function () {
+
+		gamelogic.passTurn("player1");
+		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player1");
+
+		gamelogic.passTurn("player2");
+		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
+
+		gamelogic.passTurn("player3");
+		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player3");
+
+	});
+
+});
+
+
 describe("endTurn()", function () {
 
 	afterAll(function () {
