@@ -278,6 +278,26 @@ describe("vaildMove()", function () {
 });
 
 
+describe("endTurn()", function () {
+
+	afterAll(function () {
+
+		resetGameState();
+
+	});
+
+	it("should pass turn to next player", function () {
+		gamelogic.endTurn();
+		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
+	});
+
+	it("should reset action points", function () {
+		expect(gamelogic.gameState.gameStatus.AP).toEqual(2);
+	});
+
+});
+
+
 describe("passTurn()", function () {
 
 	afterEach(function () {
@@ -297,26 +317,6 @@ describe("passTurn()", function () {
 		gamelogic.passTurn("player3");
 		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player3");
 
-	});
-
-});
-
-
-describe("endTurn()", function () {
-
-	afterAll(function () {
-
-		resetGameState();
-
-	});
-
-	it("should pass turn to next player", function () {
-		gamelogic.endTurn();
-		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
-	});
-
-	it("should reset action points", function () {
-		expect(gamelogic.gameState.gameStatus.AP).toEqual(2);
 	});
 
 });
