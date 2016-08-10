@@ -315,7 +315,124 @@ describe("move()", function () {
 });
 
 
-describe("resolveMove that has no battle", function () {
+describe("outcome()", function () {
+
+	var p1rock = {"owner": "player1", "type": "rock", "health": 1};
+	var p2rock = {"owner": "player2", "type": "rock", "health": 1};
+	var p1paper = {"owner": "player1", "type": "paper", "health": 1};
+	var p2paper = {"owner": "player2", "type": "paper", "health": 1};
+	var p1scissors = {"owner": "player1", "type": "scissors", "health": 1};
+	var p2scissors = {"owner": "player2", "type": "scissors", "health": 1};
+
+	var selectedCor = "hex12";
+	var actionCor = "hex19";
+
+
+	it("should return results object with tie outcome", function () {
+		expect(gamelogic.outcome([selectedCor, p1rock], [actionCor, p2rock])).toEqual({"winner": "tie", "loser": "tie"});
+		expect(gamelogic.outcome([selectedCor, p1paper], [actionCor, p2paper])).toEqual({"winner": "tie", "loser": "tie"});
+		expect(gamelogic.outcome([selectedCor, p1scissors], [actionCor, p2scissors])).toEqual({"winner": "tie", "loser": "tie"});
+	});
+
+	it("should return results object with attacker as winner", function () {
+		expect(gamelogic.outcome([selectedCor, p1rock], [actionCor, p2scissors])).toEqual({"winner": [selectedCor, p1rock], "loser": [actionCor, p2scissors]});
+		expect(gamelogic.outcome([selectedCor, p1paper], [actionCor, p2rock])).toEqual({"winner": [selectedCor, p1paper], "loser": [actionCor, p2rock]});
+		expect(gamelogic.outcome([selectedCor, p1scissors], [actionCor, p2paper])).toEqual({"winner": [selectedCor, p1scissors], "loser": [actionCor, p2paper]});
+	});
+
+	it("should return results object with attacker as loser", function () {
+		expect(gamelogic.outcome([selectedCor, p1rock], [actionCor, p2paper])).toEqual({"winner": [actionCor, p2paper], "loser": [selectedCor, p1rock]});
+		expect(gamelogic.outcome([selectedCor, p1paper], [actionCor, p2scissors])).toEqual({"winner": [actionCor, p2scissors], "loser": [selectedCor, p1paper]});
+		expect(gamelogic.outcome([selectedCor, p1scissors], [actionCor, p2rock])).toEqual({"winner": [actionCor, p2rock], "loser": [selectedCor, p1scissors]});
+	});
+
+});  // END OF outcome() test
+
+
+describe("loser()", function () {
+
+	var p1rock = {"owner": "player1", "type": "rock", "health": 1};
+	var p2rock2 = {"owner": "player2", "type": "rock", "health": 2};
+
+	var selectedCor = "hex12";
+
+
+	afterEach(function () {
+
+		resetGameState();
+
+	});
+
+
+	it("should decrement character's health if loses", function () {
+		gamelogic.gameState.grid.hex12 = p2rock2;
+
+		expect(gamelogic.loser(selectedCor, p2rock2)).toEqual(false);
+		expect(gamelogic.gameState.grid[selectedCor]).toEqual({"owner": "player2", "type": "rock", "health": 1});
+
+	});
+
+	it("should remove character from grid if loses and health = 0", function () {
+			gamelogic.gameState.grid[selectedCor] = p1rock;
+
+			expect(gamelogic.loser(selectedCor, p1rock)).toEqual(true);
+			expect(gamelogic.gameState.grid[selectedCor]).toEqual(gamelogic.emptyBoardObject);
+
+	});
+
+}); // END OF loser() test
+
+
+describe("battle()", function () {
+
+	var p1rock = {"owner": "player1", "type": "rock", "health": 1};
+	var p2rock = {"owner": "player2", "type": "rock", "health": 1};
+	var p2scissors = {"owner": "player2", "type": "scissors", "health": 1};
+	var p2scissors2 = {"owner": "player2", "type": "scissors", "health": 2};
+
+	var selectedCor = "hex12";
+	var actionCor = "hex19";
+
+
+	afterAll(function () {
+
+		resetGameState();
+
+	});
+
+
+	it("should move attacker to defender's hex if wins", function () {
+		gamelogic.gameState.grid[selectedCor] = p1rock;
+		gamelogic.gameState.grid[actionCor] = p2scissors;
+		gamelogic.battle(selectedCor, p1rock, actionCor, p2scissors);
+
+		expect(gamelogic.gameState.grid[actionCor]).toEqual(p1rock);
+		expect(gamelogic.gameState.grid[selectedCor]).toEqual(gamelogic.emptyBoardObject);
+	});
+
+	it("should NOT move attacker to defender's hex if defender not dead", function () {
+		gamelogic.gameState.grid[selectedCor] = p1rock;
+		gamelogic.gameState.grid[actionCor] = p2scissors2;
+		gamelogic.battle(selectedCor, p1rock, actionCor, p2scissors2);
+
+		expect(gamelogic.gameState.grid[selectedCor]).toEqual(p1rock);
+		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": "player2", "type": "scissors", "health": 1});
+	});
+
+	it("should initiate swapOut() if tied", function () {
+		gamelogic.gameState.grid[selectedCor] = p1rock;
+		gamelogic.gameState.grid[actionCor] = p2rock;
+		gamelogic.battle(selectedCor, p1rock, actionCor, p2rock);
+
+		expect(gamelogic.gameState.gameStatus.swaps.players.first).toEqual("player1");
+		expect(gamelogic.gameState.gameStatus.swaps.players.second).toEqual("player2");
+		expect(gamelogic.gameState.gameStatus.swaps.numberOf).toEqual(1);
+	});
+
+});
+
+
+describe("resolveMove() that has no battle", function () {
 
 	beforeAll(function () {
 
@@ -371,45 +488,11 @@ describe("resolveMove that has no battle", function () {
 });
 
 
-describe("battle", function () {
-
-	var p1rock = {"owner": "p1", "type": "rock", "health": 1};
-	var p2rock = {"owner": "p2", "type": "rock", "health": 1};
-	var p1paper = {"owner": "p1", "type": "paper", "health": 1};
-	var p2paper = {"owner": "p2", "type": "paper", "health": 1};
-	var p1scissors = {"owner": "p1", "type": "scissors", "health": 1};
-	var p2scissors = {"owner": "p2", "type": "scissors", "health": 1};
-
-	var selectedCor = "hex12";
-	var actionCor = "hex19";
-
-
-	it("should return results object with tie outcome", function () {
-		expect(gamelogic.battle(selectedCor, p1rock, actionCor, p2rock)).toEqual({"winner": "tie", "loser": "tie"});
-		expect(gamelogic.battle(selectedCor, p1paper, actionCor, p2paper)).toEqual({"winner": "tie", "loser": "tie"});
-		expect(gamelogic.battle(selectedCor, p1scissors, actionCor, p2scissors)).toEqual({"winner": "tie", "loser": "tie"});
-	});
-
-	it("should return results object with attacker as winner", function () {
-		expect(gamelogic.battle(selectedCor, p1rock, actionCor, p2scissors)).toEqual({"winner": [selectedCor, p1rock], "loser": [actionCor, p2scissors]});
-		expect(gamelogic.battle(selectedCor, p1paper, actionCor, p2rock)).toEqual({"winner": [selectedCor, p1paper], "loser": [actionCor, p2rock]});
-		expect(gamelogic.battle(selectedCor, p1scissors, actionCor, p2paper)).toEqual({"winner": [selectedCor, p1scissors], "loser": [actionCor, p2paper]});
-	});
-
-	it("should return results object with attacker as loser", function () {
-		expect(gamelogic.battle(selectedCor, p1rock, actionCor, p2paper)).toEqual({"winner": [actionCor, p2paper], "loser": [selectedCor, p1rock]});
-		expect(gamelogic.battle(selectedCor, p1paper, actionCor, p2scissors)).toEqual({"winner": [actionCor, p2scissors], "loser": [selectedCor, p1paper]});
-		expect(gamelogic.battle(selectedCor, p1scissors, actionCor, p2rock)).toEqual({"winner": [actionCor, p2rock], "loser": [selectedCor, p1scissors]});
-	});
-
-});
-
-
-// describe("resolveMove that has battle", function () {
+// describe("resolveMove() that has battle", function () {
 //
 // 	beforeAll(function () {
 //
-// 		initGameReady(); // Initialize Game Setup, characters placed, no moves made yet
+// 		initBattleReady(); // Initialize Game Setup, characters placed, ready to battle
 //
 // 		var selectedCor,
 // 				objectFromSelectedCor,
@@ -425,10 +508,10 @@ describe("battle", function () {
 // 	});
 //
 //
-// 	// it("should resolve battle", function () {
-// 	//
-// 	//
-// 	// });
+// 	it("should resolve battle", function () {
+//
+//
+// 	});
 //
 // 	// it("should have action points decremented after move", function () {
 // 	//

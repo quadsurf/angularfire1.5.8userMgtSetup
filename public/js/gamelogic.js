@@ -132,47 +132,62 @@ let gamelogic = {
 		return outcome;
 	},
 
-	resolveBattle: function( winner, loser ) {
+	loser: function( loserCor, loser ) {
+		loser.health -= 1;
+		if ( loser.health === 0 ) {
+			gamelogic.gameState.grid[loserCor] = gamelogic.emptyBoardObject;
+			return true;
+		}
+		return false;
+	},
 
-		//var outcome = checkWinner([NewselectedCor, objectFromSelectedCor], [actionCor, objectFromActionCor]);
-
-		// var winner = outcome.winner;
-		// var loser = outcome.loser;
-
-		// if TIE {
-		//	swapOut(CurrentPlayer) character from reserve
-		//	endTurn(CurrentPlayer)
+	swapOut: function( currentPlayer, opponent ) {
+		gamelogic.gameState.gameStatus.swaps.players.first = currentPlayer;
+		gamelogic.gameState.gameStatus.swaps.players.second = opponent;
+		gamelogic.gameState.gameStatus.swaps.numberOf += 1;
+		//
+		// if ( gamelogic.gameState.gameStatus.swaps.numberOf <= 2 ) {
+		//	gamelogic.gameState.gameStatus.mode = "swap";
+		//	gamelogic.checkGameState();
 		// } else {
-		//	loser(attacker or defender);
-		//	if attacker wins && gameboard[actionCor].owner === null {
-		//		move( attacker[1], attacker[0], moveTo )
-		// 	}
-		//	endTurn(CurrentPlayer)
+		//	gamelogic.gameState.gameStatus.mode = "turn";
+		//	gamelogic.gameState.gameStatus.swaps = {
+				// "numberOf": 0,
+				// "players": {
+				//	 "first": null,
+				//	 "second": null
+				// };
+		gamelogic.checkGameState();
 		// }
-		//
-		//
 	},
 
-	loser: function( loser, loserCor ) {
-		// loser.health -1
-		// if loser.health === 0
-		// 	gameboard[loserCor] = emptyBoardObject
-	},
+	battle: function( selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor ) {
+		var attacker = [selectedCor, objectFromSelectedCor];
+		var defender = [actionCor, objectFromActionCor];
 
-	swapOut: function() {
-		// each player can swap from their reserve
-		// then battle() again
-		return;
+		var outcome = gamelogic.outcome( attacker, defender);
+		var winner = outcome.winner;
+		var loser = outcome.loser;
+
+		if ( winner === loser ) {
+			gamelogic.swapOut(objectFromSelectedCor.owner, objectFromActionCor.owner);
+		} else {
+			var died = gamelogic.loser(loser[0], loser[1]); // loser(loserCor, loserObj)
+			if ( winner === attacker && died ) {
+				gamelogic.move( winner[1], winner[0], loser[0] ); // move (winnerObj, winnerCor, loserCor)
+			 }
+			gamelogic.checkGameState();
+		}
 	},
 
 	resolveMove: function ( selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor ) {
-		if ( gamelogic.validMove( selectedCor, actionCor) && objectFromActionCor.owner === null ) {
-			gamelogic.move(objectFromSelectedCor, selectedCor, actionCor);
-		// else
-		// 	var NewselectedCor = moveNextTo(selectedCor, actionCor);
-		// 	move (objectFromSelectedCor, selectedCor, NewselectedCor);
-		// 	battle(NewselectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
-		};
+		if ( gamelogic.validMove( selectedCor, actionCor) ) {
+			if ( objectFromActionCor.owner === null ) {
+				gamelogic.move(objectFromSelectedCor, selectedCor, actionCor);
+			} // else {
+		//	 battle(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
+		//}
+		}
 	},
 
 	placeCharacter: function() {
@@ -462,7 +477,13 @@ let gamelogic = {
 						"gameStatus": {
 							"currentPlayer": "player1",
 							"mode": "setup",
-							"swaps": null,
+							"swaps": {
+								"numberOf": 0,
+								"players": {
+									"first": null,
+									"second": null
+								}
+							},
 							"AP": null,
 						},
 						"grid": {
