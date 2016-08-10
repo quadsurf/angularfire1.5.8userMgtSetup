@@ -350,8 +350,8 @@ describe("move()", function () {
 
 		gamelogic.move(objectFromSelectedCor, selectedCor, actionCor);
 
-		expect(gamelogic.gameState.grid["hex7"]).toEqual({"owner": "player1", "type": "rock", "health": 1});
-		expect(gamelogic.gameState.grid["hex2"]).toEqual({"owner": null, "type": null, "health": null});
+		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": "player1", "type": "rock", "health": 1});
+		expect(gamelogic.gameState.grid[selectedCor]).toEqual({"owner": null, "type": null, "health": null});
 
 	});
 
@@ -504,8 +504,8 @@ describe("resolveMove() that has no battle", function () {
 
 		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
 
-		expect(gamelogic.gameState.grid["hex7"]).toEqual({"owner": "player1", "type": "rock", "health": 1});
-		expect(gamelogic.gameState.grid["hex2"]).toEqual({"owner": null, "type": null, "health": null});
+		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": "player1", "type": "rock", "health": 1});
+		expect(gamelogic.gameState.grid[selectedCor]).toEqual({"owner": null, "type": null, "health": null});
 
 	});
 
