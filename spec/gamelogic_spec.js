@@ -1,4 +1,4 @@
-var gamelogic = require('../public/js/gamelogic.js');
+var gamelogic = require('../webapp/js/gamelogic.js');
 
 function resetGameState(){
 	gamelogic.gameState = {
