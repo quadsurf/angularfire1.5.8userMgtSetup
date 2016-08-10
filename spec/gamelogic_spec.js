@@ -278,6 +278,29 @@ describe("vaildMove()", function () {
 });
 
 
+describe("findNextPlayer()", function () {
+
+	beforeAll(function () {
+		initGameReady();
+	});
+
+	afterAll(function () {
+		resetGameState();
+	});
+
+
+	it("should find the next player", function () {
+		expect(gamelogic.findNextPlayer()).toEqual("player2");
+	});
+
+	it("should loop back to player1 when reached end of players", function () {
+		gamelogic.gameState.gameStatus.currentPlayer = "player2";
+		expect(gamelogic.findNextPlayer()).toEqual("player1");
+	});
+
+});
+
+
 describe("endTurn()", function () {
 
 	afterAll(function () {
