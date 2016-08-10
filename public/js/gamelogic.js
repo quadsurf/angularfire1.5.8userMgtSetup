@@ -61,10 +61,12 @@ let gamelogic = {
 		var nextPlayer = "player" + (parseInt(currentPlayerNum) + 1);
 
 		if ( gamelogic.gameState.players[nextPlayer] )
-		gamelogic.gameState.gameStatus.currentPlayer = nextPlayer;
+			gamelogic.gameState.gameStatus.currentPlayer = nextPlayer;
 		else {
 			gamelogic.gameState.gameStatus.currentPlayer = "player1";
 		}
+
+		gamelogic.gameState.gameStatus.AP = 2;
 	},
 
 	passTurn: function ( passTo ) {
@@ -145,7 +147,7 @@ let gamelogic = {
 		gamelogic.gameState.gameStatus.swaps.players.first = currentPlayer;
 		gamelogic.gameState.gameStatus.swaps.players.second = opponent;
 		gamelogic.gameState.gameStatus.swaps.numberOf = 0;
-		gamelogic.checkGameState();gi
+		gamelogic.checkGameState();
 	},
 
 	battle: function( selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor ) {
@@ -449,7 +451,7 @@ let gamelogic = {
 									"unit4": "Paper",
 									"unit5": "Scissors",
 									"unit6": "Scissors"
-								},
+								}
 							},
 							"player2": {
 								"name": "p2",
@@ -461,11 +463,10 @@ let gamelogic = {
 									"unit5": "Scissors",
 									"unit6": "Scissors"
 								}
-							},
+							}
 						},
 						"gameStatus": {
 							"currentPlayer": "player1",
-							"mode": "setup",
 							"swaps": {
 								"numberOf": null,
 								"players": {

@@ -291,6 +291,10 @@ describe("endTurn()", function () {
 		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
 	});
 
+	it("should reset action points", function () {
+		expect(gamelogic.gameState.gameStatus.AP).toEqual(2);
+	});
+
 });
 
 
@@ -311,11 +315,10 @@ describe("useAP()", function () {
 	it("should decrement AP", function () {
 		gamelogic.useAP();
 		expect(gamelogic.gameState.gameStatus.AP).toEqual(1);
-		gamelogic.useAP();
-		expect(gamelogic.gameState.gameStatus.AP).toEqual(0);
 	});
 
 	it("should pass turn to next player if no AP are left", function () {
+		gamelogic.useAP();
 		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
 	});
 
@@ -544,13 +547,11 @@ describe("resolveMove() that has no battle", function () {
 
 		expect(gamelogic.gameState.gameStatus.AP).toEqual(1); // since prev it block made move
 
-		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor); // make second move
-
-		expect(gamelogic.gameState.gameStatus.AP).toEqual(0);
-
 	});
 
 	it("should pass turn to next player if no AP are left", function () {
+		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor); // make second move
+
 		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
 	});
 
@@ -609,11 +610,7 @@ describe("resolveMove() that has battle", function () {
 		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": "player2", "type": "rock", "health": 1});
 		expect(gamelogic.gameState.grid[selectedCor]).toEqual(gamelogic.emptyBoardObject);
 
-	});
-
-	it("should have had action points decremented after move", function () {
-		expect(gamelogic.gameState.gameStatus.AP).toEqual(0); // since prev it block made move
-	});
+	});g
 
 	it("should pass turn to next player if no AP are left", function () {
 		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
