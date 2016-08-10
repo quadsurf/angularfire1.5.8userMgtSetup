@@ -19,7 +19,8 @@
 			[{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
 			[{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}],
 			[{"owner": "blocked"}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}, {"owner": null, "character": null}]
-      ]
+		],
+		
 		}
 	]
 }
