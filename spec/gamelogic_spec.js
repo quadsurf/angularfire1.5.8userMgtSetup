@@ -477,14 +477,14 @@ describe("battle()", function () {
 
 describe("resolveMove() that has no battle", function () {
 
+	var selectedCor,
+		objectFromSelectedCor,
+		actionCor,
+		objectFromActionCor;
+
 	beforeAll(function () {
 
 		initGameReady(); // Initialize Game Setup, characters placed, no moves made yet
-
-		var selectedCor,
-				objectFromSelectedCor,
-				actionCor,
-				objectFromActionCor;
 
 	});
 
@@ -492,6 +492,19 @@ describe("resolveMove() that has no battle", function () {
 
 		resetGameState();
 
+	});
+
+	it("should NOT move character data to new hex if move NOT valid", function () {
+
+		selectedCor = "hex2";
+		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
+		actionCor = "hex27";
+		objectFromActionCor = gamelogic.gameState.grid[actionCor];
+
+		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
+
+		expect(gamelogic.gameState.grid[selectedCor]).toEqual({"owner": "player1", "type": "rock", "health": 1});
+		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": null, "type": null, "health": null});
 	});
 
 
@@ -533,14 +546,14 @@ describe("resolveMove() that has no battle", function () {
 
 describe("resolveMove() that has battle", function () {
 
+	var selectedCor,
+		objectFromSelectedCor,
+		actionCor,
+		objectFromActionCor;
+
 	beforeAll(function () {
 
 		initBattleReady(); // Initialize Game Setup, characters placed, ready to battle
-
-		var selectedCor,
-				objectFromSelectedCor,
-				actionCor,
-				objectFromActionCor;
 
 	});
 
@@ -551,7 +564,7 @@ describe("resolveMove() that has battle", function () {
 	});
 
 
-	it("should resolve move with a battle", function () {
+	it("should move attacker if wins", function () {
 
 		selectedCor = "hex29";
 		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
@@ -565,19 +578,28 @@ describe("resolveMove() that has battle", function () {
 
 	});
 
-	it("should have action points decremented after move", function () {
-
-		selectedCor = "hex34";
-		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
-		actionCor = "hex35";
-		objectFromActionCor = gamelogic.gameState.grid[actionCor];
+	it("should have had action points decremented after move", function () {
 
 		expect(gamelogic.gameState.gameStatus.AP).toEqual(1); // since prev it block made move
 
-		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor); // make second move
+	});
 
-		expect(gamelogic.gameState.gameStatus.AP).toEqual(0);
+	it("should destroy attacker if loses", function () {
 
+		selectedCor = "hex34";
+		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
+		actionCor = "hex30";
+		objectFromActionCor = gamelogic.gameState.grid[actionCor];
+
+		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
+
+		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": "player2", "type": "rock", "health": 1});
+		expect(gamelogic.gameState.grid[selectedCor]).toEqual(gamelogic.emptyBoardObject);
+
+	});
+
+	it("should have had action points decremented after move", function () {
+		expect(gamelogic.gameState.gameStatus.AP).toEqual(0); // since prev it block made move
 	});
 
 	it("should pass turn to next player if no AP are left", function () {

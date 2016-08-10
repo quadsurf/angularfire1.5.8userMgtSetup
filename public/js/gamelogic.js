@@ -175,9 +175,11 @@ let gamelogic = {
 			var died = gamelogic.loser(loser[0], loser[1]); // loser(loserCor, loserObj)
 			if ( winner === attacker && died ) {
 				gamelogic.move( winner[1], winner[0], loser[0] ); // move (winnerObj, winnerCor, loserCor)
-			 }
-			gamelogic.checkGameState();
+			} else {
+				gamelogic.useAP();
+			}
 		}
+		gamelogic.checkGameState();
 	},
 
 	resolveMove: function ( selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor ) {
@@ -186,7 +188,7 @@ let gamelogic = {
 				gamelogic.move(objectFromSelectedCor, selectedCor, actionCor);
 			} else {
 			 gamelogic.battle(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
-		}
+			}
 		}
 	},
 
