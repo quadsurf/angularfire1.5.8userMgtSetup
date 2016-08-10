@@ -67,13 +67,13 @@ let gamelogic = {
 		}
 	},
 
+	passTurn: function ( passTo ) {
+		gamelogic.gameState.gameStatus.currentPlayer = passTo;
+	},
+
 	endTurn: function () {
 		gamelogic.gameState.gameStatus.AP = 2;
 		gamelogic.passTurn( gamelogic.findNextPlayer() );
-	},
-
-	passTurn: function ( passTo ) {
-		gamelogic.gameState.gameStatus.currentPlayer = passTo;
 	},
 
 	useAP: function ( ) {
