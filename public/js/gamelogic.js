@@ -20,6 +20,27 @@ let gamelogic = {
 		}
 	},
 
+	checkGameState: function () {
+		// var status = gamelogic.gameState.gameStatus.mode
+
+		// do stuff depending on what status is
+		// switch (status) {
+		//	 case "swap":
+		//
+		//		 break;
+
+		//	 case "turn":
+		//
+		//		 break;
+
+		//	 case "setup":
+		//
+		//		 break;
+		//	 default:
+		//
+		// }
+	},
+
 	loadBoard: function (gameState) {
 		// loop through gameState.players, add playerX.name to playersList
 		// loop through gameState.grid, display visual representations
