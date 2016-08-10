@@ -426,6 +426,19 @@ describe("loser()", function () {
 }); // END OF loser() test
 
 
+describe("initSwapOut()", function () {
+
+	it("should initialize swap mode", function () {
+		gamelogic.initSwapOut("player1", "player2");
+
+		expect(gamelogic.gameState.gameStatus.swaps.players.first).toEqual("player1");
+		expect(gamelogic.gameState.gameStatus.swaps.players.second).toEqual("player2");
+		expect(gamelogic.gameState.gameStatus.swaps.numberOf).toEqual(0);
+	});
+
+});
+
+
 describe("battle()", function () {
 
 	var p1rock = {"owner": "player1", "type": "rock", "health": 1};
@@ -462,14 +475,14 @@ describe("battle()", function () {
 		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": "player2", "type": "scissors", "health": 1});
 	});
 
-	it("should initiate swapOut() if tied", function () {
+	it("should initiate initSwapOut() if tied", function () {
 		gamelogic.gameState.grid[selectedCor] = p1rock;
 		gamelogic.gameState.grid[actionCor] = p2rock;
 		gamelogic.battle(selectedCor, p1rock, actionCor, p2rock);
 
 		expect(gamelogic.gameState.gameStatus.swaps.players.first).toEqual("player1");
 		expect(gamelogic.gameState.gameStatus.swaps.players.second).toEqual("player2");
-		expect(gamelogic.gameState.gameStatus.swaps.numberOf).toEqual(1);
+		expect(gamelogic.gameState.gameStatus.swaps.numberOf).toEqual(0);
 	});
 
 });

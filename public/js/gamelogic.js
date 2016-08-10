@@ -141,24 +141,11 @@ let gamelogic = {
 		return false;
 	},
 
-	swapOut: function( currentPlayer, opponent ) {
+	initSwapOut: function( currentPlayer, opponent ) {
 		gamelogic.gameState.gameStatus.swaps.players.first = currentPlayer;
 		gamelogic.gameState.gameStatus.swaps.players.second = opponent;
-		gamelogic.gameState.gameStatus.swaps.numberOf += 1;
-		//
-		// if ( gamelogic.gameState.gameStatus.swaps.numberOf <= 2 ) {
-		//	gamelogic.gameState.gameStatus.mode = "swap";
-		//	gamelogic.checkGameState();
-		// } else {
-		//	gamelogic.gameState.gameStatus.mode = "turn";
-		//	gamelogic.gameState.gameStatus.swaps = {
-				// "numberOf": 0,
-				// "players": {
-				//	 "first": null,
-				//	 "second": null
-				// };
-		gamelogic.checkGameState();
-		// }
+		gamelogic.gameState.gameStatus.swaps.numberOf = 0;
+		gamelogic.checkGameState();gi
 	},
 
 	battle: function( selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor ) {
@@ -170,7 +157,7 @@ let gamelogic = {
 		var loser = outcome.loser;
 
 		if ( winner === loser ) {
-			gamelogic.swapOut(objectFromSelectedCor.owner, objectFromActionCor.owner);
+			gamelogic.initSwapOut(objectFromSelectedCor.owner, objectFromActionCor.owner);
 		} else {
 			var died = gamelogic.loser(loser[0], loser[1]); // loser(loserCor, loserObj)
 			if ( winner === attacker && died ) {
@@ -480,7 +467,7 @@ let gamelogic = {
 							"currentPlayer": "player1",
 							"mode": "setup",
 							"swaps": {
-								"numberOf": 0,
+								"numberOf": null,
 								"players": {
 									"first": null,
 									"second": null
