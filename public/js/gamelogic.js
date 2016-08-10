@@ -67,24 +67,26 @@ let gamelogic = {
 		}
 	},
 
+	passTurn: function ( passTo ) {
+		// gamelogic.gameState.gameStatus.currentPlayer = passTo;
+	},
+
 	useAP: function ( ) {
 		if ( gamelogic.gameState.gameStatus.AP > 1 ) {
-			gamelogic.gameState.gameStatus.AP -= 1
+			gamelogic.gameState.gameStatus.AP -= 1;
 		} else {
-			gamelogic.gameState.gameStatus.AP -= 1
+			gamelogic.gameState.gameStatus.AP -= 1;
 			gamelogic.endTurn();
 		}
 	},
 
 	move: function ( objectFromSelectedCor, moveFrom, moveTo ) {
 		gamelogic.gameState.grid[moveTo] = objectFromSelectedCor;
-		gamelogic.gameState.grid[moveFrom] = gamelogic.emptyBoardObject
+		gamelogic.gameState.grid[moveFrom] = gamelogic.emptyBoardObject;
 		gamelogic.useAP();
 	},
 
-	battle: function( NewselectedCor, objectFromSelectedCor, actionCor, objectFromActionCor ){
-		var attacker = [NewselectedCor, objectFromSelectedCor];
-		var defender = [actionCor, objectFromActionCor];
+	outcome: function( attacker, defender ){
 		var outcome = {};
 
 		switch (attacker[1].type + defender[1].type) {
