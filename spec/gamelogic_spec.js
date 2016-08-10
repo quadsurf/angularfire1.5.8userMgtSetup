@@ -4,7 +4,7 @@ function resetGameState(){
 	gamelogic.gameState = {
 				"players": {
 					"player1": {
-						"name": "p1",
+						"name": "player1",
 						"reserve": {
 							"unit1": "Rock",
 							"unit2": "Rock",
@@ -15,7 +15,7 @@ function resetGameState(){
 						},
 					},
 					"player2": {
-						"name": "p2",
+						"name": "player2",
 						"reserve": {
 							"unit1": "Rock",
 							"unit2": "Rock",
@@ -29,7 +29,13 @@ function resetGameState(){
 				"gameStatus": {
 					"currentPlayer": "player1",
 					"mode": "setup",
-					"swaps": null,
+					"swaps": {
+						"numberOf": 0,
+						"players": {
+							"first": null,
+							"second": null
+						}
+					},
 					"AP": null,
 				},
 				"grid": {
@@ -168,15 +174,52 @@ function initGameReady(){
 							"unit6": false
 						};
 
+	gamelogic.gameState.gameStatus.mode = "turn";
 	gamelogic.gameState.gameStatus.AP = 2;
-	gamelogic.gameState.grid.hex2 = {"owner": "p1", "type": "rock", "health": 1};
-	gamelogic.gameState.grid.hex3 = {"owner": "p1", "type": "scissors", "health": 1};
-	gamelogic.gameState.grid.hex5 = {"owner": "p1", "type": "paper", "health": 1};
-	gamelogic.gameState.grid.hex10 = {"owner": "p1", "type": "scissors", "health": 1};
-	gamelogic.gameState.grid.hex28 = {"owner": "p2", "type": "rock", "health": 1};
-	gamelogic.gameState.grid.hex33 = {"owner": "p2", "type": "paper", "health": 1};
-	gamelogic.gameState.grid.hex35 = {"owner": "p2", "type": "rock", "health": 1};
-	gamelogic.gameState.grid.hex36 = {"owner": "p2", "type": "scissors", "health": 1};
+	gamelogic.gameState.grid.hex2 = {"owner": "player1", "type": "rock", "health": 1};
+	gamelogic.gameState.grid.hex3 = {"owner": "player1", "type": "scissors", "health": 1};
+	gamelogic.gameState.grid.hex5 = {"owner": "player1", "type": "paper", "health": 1};
+	gamelogic.gameState.grid.hex10 = {"owner": "player1", "type": "scissors", "health": 1};
+	gamelogic.gameState.grid.hex28 = {"owner": "player2", "type": "rock", "health": 1};
+	gamelogic.gameState.grid.hex33 = {"owner": "player2", "type": "paper", "health": 1};
+	gamelogic.gameState.grid.hex35 = {"owner": "player2", "type": "rock", "health": 1};
+	gamelogic.gameState.grid.hex36 = {"owner": "player2", "type": "scissors", "health": 1};
+
+}
+
+function initBattleReady(){
+	// Initialize Game Setup, characters placed, ready to battle
+	gamelogic.gameState.players.player1.reserve = {
+							"unit1": "Rock",
+							"unit2": false,
+							"unit3": "Paper",
+							"unit4": false,
+							"unit5": false,
+							"unit6": false
+						};
+
+	gamelogic.gameState.players.player2.reserve = {
+							"unit1": false,
+							"unit2": false,
+							"unit3": false,
+							"unit4": "Paper",
+							"unit5": "Scissors",
+							"unit6": false
+						};
+
+	gamelogic.gameState.gameStatus.AP = 2;
+
+	gamelogic.gameState.grid.hex29 = {"owner": "player1", "type": "scissors", "health": 1};
+	gamelogic.gameState.grid.hex34 = {"owner": "player2", "type": "paper", "health": 1};
+
+	gamelogic.gameState.grid.hex19 = {"owner": "player1", "type": "paper", "health": 1};
+	gamelogic.gameState.grid.hex26 = {"owner": "player2", "type": "scissors", "health": 1};
+
+	gamelogic.gameState.grid.hex24 = {"owner": "player1", "type": "scissors", "health": 1};
+	gamelogic.gameState.grid.hex30 = {"owner": "player2", "type": "rock", "health": 1};
+
+	gamelogic.gameState.grid.hex21 = {"owner": "player1", "type": "rock", "health": 1};
+	gamelogic.gameState.grid.hex28 = {"owner": "player2", "type": "rock", "health": 1};
 
 }
 
@@ -307,7 +350,7 @@ describe("move()", function () {
 
 		gamelogic.move(objectFromSelectedCor, selectedCor, actionCor);
 
-		expect(gamelogic.gameState.grid["hex7"]).toEqual({"owner": "p1", "type": "rock", "health": 1});
+		expect(gamelogic.gameState.grid["hex7"]).toEqual({"owner": "player1", "type": "rock", "health": 1});
 		expect(gamelogic.gameState.grid["hex2"]).toEqual({"owner": null, "type": null, "health": null});
 
 	});
@@ -461,7 +504,7 @@ describe("resolveMove() that has no battle", function () {
 
 		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
 
-		expect(gamelogic.gameState.grid["hex7"]).toEqual({"owner": "p1", "type": "rock", "health": 1});
+		expect(gamelogic.gameState.grid["hex7"]).toEqual({"owner": "player1", "type": "rock", "health": 1});
 		expect(gamelogic.gameState.grid["hex2"]).toEqual({"owner": null, "type": null, "health": null});
 
 	});
