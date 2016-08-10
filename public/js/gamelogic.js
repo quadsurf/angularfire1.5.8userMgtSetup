@@ -21,24 +21,20 @@ let gamelogic = {
 	},
 
 	checkGameState: function () {
-		// var status = gamelogic.gameState.gameStatus.mode
+		var mode = gamelogic.gameState.gameStatus.mode;
+		var ap = gamelogic.gameState.gameStatus.AP;
 
-		// do stuff depending on what status is
-		// switch (status) {
-		//	 case "swap":
-		//
-		//		 break;
+		// SETUP mode
+		if ( mode === "setup" ) {
+			// open reserve menu
+			// allow placements
+		}
 
-		//	 case "turn":
-		//
-		//		 break;
-
-		//	 case "setup":
-		//
-		//		 break;
-		//	 default:
-		//
-		// }
+		// SWAP mode
+		if ( mode === "swap" ) {
+			// open reserve menu
+			// allow 1 swap
+		}
 	},
 
 	loadBoard: function (gameState) {

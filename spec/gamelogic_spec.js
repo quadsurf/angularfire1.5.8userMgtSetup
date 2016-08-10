@@ -263,6 +263,15 @@ describe("randomRPS()", function () {
 });
 
 
+describe("checkGameState()", function () {
+
+	it("description", function () {
+
+	});
+
+});
+
+
 describe("vaildMove()", function () {
 
 	it("should return true is move valid", function () {
