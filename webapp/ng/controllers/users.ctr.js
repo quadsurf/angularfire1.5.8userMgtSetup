@@ -14,10 +14,12 @@
       let st = $state;
 
       //initialize functions
-
+      s.signInWithEmail = signInWithEmail;
 
       //vars
       s.users = {};
+      s.email;
+      s.password;
       // $firebaseObject(firebase.database().ref().child("users")).$bindTo(s,"users");
 
 
@@ -107,13 +109,25 @@
       s.auth = authService;
       authService.$onAuthStateChanged(function(firebaseUser){
         s.firebaseUser = firebaseUser;
+
+        if (s.firebaseUser && s.firebaseUser.providerData[0].providerId === 'password'){
+          Object.defineProperties(s.firebaseUser.providerData[0],{
+            displayName: { writable:true },
+            email: { writable:true }
+          });
+
+          s.firebaseUser.providerData[0].displayName;
+          $scope.$watch('firebaseUser.providerData[0].displayName', function(){
+              if (s.firebaseUser){
+                s.firebaseUser.providerData[0].displayName = s.firebaseUser.providerData[0].email.replace(/@.*/, '');
+              }
+            }
+          );
+        }
+
         if (s.firebaseUser){
 
           if (s.firebaseUser.providerData[0].providerId !== "password"){
-
-            // function addUser(child){
-            //
-            // }
 
             var ref = firebase.database().ref().child("users");
             var users = $firebaseObject(ref);
@@ -139,13 +153,30 @@
 
       });
 
+      function signInWithEmail(email,password){
+        authService.$signInWithEmailAndPassword(email,password)
+        .then(function(firebaseUser) {
 
-      $scope.authObj.$signInWithEmailAndPassword("my@email.com", "password").then(function(firebaseUser) {
-        console.log("Signed in as:", firebaseUser.uid);
-      }).catch(function(error) {
-        console.error("Authentication failed:", error);
-      });
+          s.firebaseUser = firebaseUser;
 
+          Object.defineProperties(s.firebaseUser.providerData[0],{
+            displayName: { writable:true },
+            email: { writable:true }
+          });
+
+          s.firebaseUser.providerData[0].displayName;
+          $scope.$watch('firebaseUser.providerData[0].displayName', function(){
+              if (s.firebaseUser){
+                s.firebaseUser.providerData[0].displayName = s.firebaseUser.providerData[0].email.replace(/@.*/, '');
+              }
+            }
+          );
+          s.firebaseUser.providerData[0].displayName = s.firebaseUser.providerData[0].email.replace(/@.*/, '');
+        })
+        .catch(function(error) {
+            console.error("Oops, looks like we couldn't log you in for the following reason: ", error);
+          });
+      }
 
       function showToast(message){
 
