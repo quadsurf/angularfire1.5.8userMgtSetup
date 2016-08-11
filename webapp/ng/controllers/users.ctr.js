@@ -6,8 +6,8 @@
   angular
     .module('rpsApp')
     .controller('usersCtr',
-            ['$scope','$state','$http','$mdToast','$mdDialog','$firebaseObject','authService','addUserService',
-      function($scope, $state, $http, $mdToast, $mdDialog, $firebaseObject, authService, addUserService){
+            ['$scope','$state','$http','$mdToast','$mdDialog','$firebaseObject','$firebaseArray','authService','addUserService',
+      function($scope, $state, $http, $mdToast, $mdDialog, $firebaseObject, $firebaseArray, authService, addUserService){
 
       let t = this;
       let s = $scope;
@@ -20,36 +20,6 @@
       s.users = {};
       s.email;
       s.password;
-      // $firebaseObject(firebase.database().ref().child("users")).$bindTo(s,"users");
-
-
-      // let ref = firebase.database().ref().child("data");
-      //
-      // let syncObject = $firebaseObject(ref);
-      //
-      // syncObject.$bindTo(s, "data");
-
-      let ref = firebase.database().ref().child("validmoves");
-
-      let syncMoves = $firebaseObject(ref);
-
-      syncMoves.$bindTo(s, "validmoves");
-
-
-
-
-
-      //DELETE USER
-      // s.deleteUser = function() {
-      //   s.message = null;
-      //   s.error = null;
-      //   authService.$deleteUser().then(function() {
-      //     s.message = "Sorry to see you go. Your account has been removed.";
-      //     })
-      //     .catch(function(error) {
-      //       s.error = error;
-      //     });
-      // };
 
       //EMAIL SIGNUPS
       s.createUser = function() {
@@ -81,13 +51,11 @@
 
             if (s.firebaseUser !== null && s.firebaseUser.providerData[0].providerId === 'password'){
 
-              var ref = firebase.database().ref().child("users");
-              var users = $firebaseObject(ref);
               var uid = s.firebaseUser.uid;
 
-              users[uid] = s.firebaseUser.providerData[0];
+              s.users[uid] = s.firebaseUser.providerData[0];
 
-              users.$save()
+              addUserService.$add(s.users[uid])
               .then(function(ref) {
                 console.log('Email Signup Saved');
               }, function(error) {
@@ -129,15 +97,13 @@
 
           if (s.firebaseUser.providerData[0].providerId !== "password"){
 
-            var ref = firebase.database().ref().child("users");
-            var users = $firebaseObject(ref);
             var uid = s.firebaseUser.uid;
 
             s.firebaseUser.providerData[0].score = 0;
 
-            users[uid] = s.firebaseUser.providerData[0];
+            s.users[uid] = s.firebaseUser.providerData[0];
 
-            users.$save()
+            addUserService.$add(s.users[uid])
             .then(function(ref) {
               console.log('Social Signup Saved');
             }, function(error) {
@@ -148,8 +114,6 @@
         } else {
           console.log('is logged out');
         }
-
-
 
       });
 

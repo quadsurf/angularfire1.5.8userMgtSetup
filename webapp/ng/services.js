@@ -19,16 +19,12 @@
 
     }])
 
-    .service("addUserService", ["$firebaseObject",
-      function($firebaseObject) {
-        return function(uid) {
-          // create a reference to the database node where we will store our data
-          var ref = firebase.database().ref("users").push();
-          var uidRef = ref.child(uid);
+    .service("addUserService", ["$firebaseArray",
+      function($firebaseArray) {
 
-          // return it as a synchronized object
-          return $firebaseObject(uidRef);
-        }
+        let ref = firebase.database().ref().child("users");
+        return $firebaseArray(ref);
+        
       }
     ])
 
