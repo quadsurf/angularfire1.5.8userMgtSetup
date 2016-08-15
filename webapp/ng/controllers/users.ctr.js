@@ -49,14 +49,19 @@
 
             s.firebaseUser.providerData[0].score = 0;
 
+            s.firebaseUser.providerData[0].dateCreated = firebase.database.ServerValue.TIMESTAMP;
+
+            s.firebaseUser.providerData[0].inGames = [''];
+
             if (s.firebaseUser !== null && s.firebaseUser.providerData[0].providerId === 'password'){
 
-              var uid = s.firebaseUser.uid;
+              let uid = s.firebaseUser.uid;
 
-              s.users[uid] = s.firebaseUser.providerData[0];
+              let providerData = s.firebaseUser.providerData[0];
 
-              addUserService.$add(s.users[uid])
+              addUserService.toUserObj(uid).$add(providerData)
               .then(function(ref) {
+                // let id = ref.key();
                 console.log('Email Signup Saved');
               }, function(error) {
                 console.log("Oops, the following went wrong: ", error);
@@ -97,13 +102,17 @@
 
           if (s.firebaseUser.providerData[0].providerId !== "password"){
 
-            var uid = s.firebaseUser.uid;
-
             s.firebaseUser.providerData[0].score = 0;
 
-            s.users[uid] = s.firebaseUser.providerData[0];
+            s.firebaseUser.providerData[0].dateCreated = firebase.database.ServerValue.TIMESTAMP;
 
-            addUserService.$add(s.users[uid])
+            s.firebaseUser.providerData[0].inGames = [''];
+
+            let uid = s.firebaseUser.uid;
+
+            let providerData = s.firebaseUser.providerData[0];
+
+            addUserService.toUserObj(uid).$add(providerData)
             .then(function(ref) {
               console.log('Social Signup Saved');
             }, function(error) {
